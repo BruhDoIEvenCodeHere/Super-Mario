@@ -1,4 +1,3 @@
-print("HELLO WORLD")
 import turtle
 import sys, os
 import pygame
@@ -167,7 +166,7 @@ class EnemyHead(pygame.sprite.Sprite):
         self.kill()
         player.dy = -15
         shellSize = 10
-        Shell(self.pos, V(0,0), 1)
+        Shell(self.pos, V(50,75), 1)
         
   def update(self):
     self.draw()
@@ -180,11 +179,22 @@ class Shell(pygame.sprite.Sprite):
     self.size = tuple(dim * imageScale for dim in Block.size)
     self.image = koopaShell
     self.rect = self.image.get_rect(center = self.pos)
+    self.vel = V(0,0)
+    self.acc = V(0,0)
   def draw(self):
     self.image = pygame.transform.scale(self.image, self.size)
     self.rect = self.image.get_rect(center = self.pos)
     screen.blit(self.image, self.rect)
+  def move(self):
+    pass
+  def falling(self):
+    self.acc.y = 1
+    for block in blocks:
+      if pygame.sprite.collide_mask(self, block):
+        self.acc.y = 0
+        self.pos.y = block.rect.top
   def update(self):
+    self.falling()
     self.draw()
 
 LEFT = pygame.K_LEFT
