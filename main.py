@@ -186,15 +186,17 @@ class Shell(pygame.sprite.Sprite):
     self.rect = self.image.get_rect(center = self.pos)
     screen.blit(self.image, self.rect)
   def move(self):
-    pass
+    self.vel += self.acc
+    self.pos += self.vel
   def falling(self):
     self.acc.y = 1
     for block in blocks:
       if pygame.sprite.collide_mask(self, block):
         self.acc.y = 0
-        self.pos.y = block.rect.top
+        self.pos.y = block.rect.top - (Block.size[0] + 25)
   def update(self):
     self.falling()
+    self.move()
     self.draw()
 
 LEFT = pygame.K_LEFT
