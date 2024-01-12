@@ -193,9 +193,17 @@ class Shell(pygame.sprite.Sprite):
     for block in blocks:
       if pygame.sprite.collide_mask(self, block):
         self.acc.y = 0
+        self.vel.y = Block.size[0] + 2
         self.pos.y = block.rect.top - (Block.size[0] + 25)
+  def kicking(self):
+    if pygame.sprite.collide_mask(self, player):
+      if player.isFacingRight:
+        self.vel.x = 2
+      else:
+        self.vel.x = -2
   def update(self):
     self.falling()
+    self.kicking()
     self.move()
     self.draw()
 
